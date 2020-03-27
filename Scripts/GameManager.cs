@@ -2,19 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public sealed class GameManager : MonoBehaviour
 {
     private static GameManager _instance;
     public static GameManager Instance { get { return _instance; } }
 
-    // Game states
-    private bool isGameOver;
+    public bool IsGameOver { get; private set; }
 
     // World objects
     private GameObject floorObject;
 
     // UI objects
+    private GameObject mainCanvas;
     private GameObject scoreText;
     private GameObject endLevelCanvas;
     private GameObject finalScore;
@@ -42,6 +43,7 @@ public sealed class GameManager : MonoBehaviour
         floorObject = GameObject.FindGameObjectWithTag("Floor");
 
         // Find UI objects
+        mainCanvas = GameObject.Find("MainCanvas");
         scoreText = GameObject.Find("ScoreText");
         endLevelCanvas = GameObject.Find("EndLevelCanvas");
         finalScore = GameObject.Find("FinalScore");
@@ -52,7 +54,7 @@ public sealed class GameManager : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!isGameOver)
+        if (!IsGameOver)
         {
             CheckPlayerHeight();
             UpdateScore();
@@ -64,7 +66,7 @@ public sealed class GameManager : MonoBehaviour
     public void UpdateScore()
     {
         playerScore = PlayerManager.Instance.GetDistanceFromStart();
-        scoreText.GetComponent<Text>().text = string.Format("{0:N2}", playerScore);
+        scoreText.GetComponent<Text>().text = string.Format("{0:N2}", playerScore); // TODO: Add method to MainCanvas script (or UIManager) to update in-game score UI for during game.
     }
 
     public void CheckPlayerHeight()
@@ -75,18 +77,24 @@ public sealed class GameManager : MonoBehaviour
         }
     }
 
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        mainCanvas.GetComponent<MainCanvas>().EnableStartGameUI(); // TODO: Make UIManager singleton.
+    }
+
     public void EndGame()
     {
-        if (!isGameOver)
+        if (!IsGameOver)
         {
-            isGameOver = true;
+            IsGameOver = true;
             Debug.LogError("Game over!");
             SFXobject.Play();
 
             PlayerManager.Instance.DisableMovement();
-            scoreText.GetComponentInParent<Canvas>().enabled = false;
-            finalScore.GetComponent<Text>().text = string.Format("{0:N2}", playerScore);
-            endLevelCanvas.GetComponent<Canvas>().enabled = true;
+            scoreText.GetComponent<Text>().enabled = false;
+            finalScore.GetComponent<Text>().text = string.Format("{0:N2}", playerScore); // TODO: Add method to MainCanvas script (or UIManager) to update final score UI for endgame.
+            mainCanvas.GetComponent<MainCanvas>().EnableEndGameUI(); // TODO: Make UIManager singleton.
         }
     }
 }

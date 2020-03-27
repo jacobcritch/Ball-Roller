@@ -6,6 +6,8 @@ public class Music : MonoBehaviour
 {
     static Object _instance;
 
+    AudioSource audioSource;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -19,5 +21,9 @@ public class Music : MonoBehaviour
         }
         else
             Destroy(this.gameObject);
+
+        audioSource = GetComponent<AudioSource>();
     }
+
+    public void Mute() => audioSource.mute = audioSource.mute == false ? true : false;
 }

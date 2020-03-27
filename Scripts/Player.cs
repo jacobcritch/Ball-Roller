@@ -18,7 +18,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (running)
+        if (running) // TODO: Add all this stuff to a InputManager
         {
             rb.AddForce(0, 0, 20); // Add forward force
 
@@ -29,6 +29,13 @@ public class Player : MonoBehaviour
             if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
             {
                 rb.AddForce((float)0.5, 0, 0, ForceMode.VelocityChange);
+            }
+        }
+        else
+        {
+            if ( (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.Return)) && GameManager.Instance.IsGameOver)
+            {
+                GameManager.Instance.RestartGame();
             }
         }
     }

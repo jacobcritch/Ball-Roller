@@ -7,7 +7,7 @@ public class RespawnButtonAction : MonoBehaviour
 {
     public void Respawn()
     {
+        GameManager.Instance.RestartGame();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
-
 }
