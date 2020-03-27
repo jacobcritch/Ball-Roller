@@ -92,7 +92,6 @@ public sealed class GameManager : MonoBehaviour
             SFXobject.Play();
 
             PlayerManager.Instance.DisableMovement();
-            scoreText.GetComponent<Text>().enabled = false;
             finalScore.GetComponent<Text>().text = string.Format("{0:N2}", playerScore); // TODO: Add method to MainCanvas script (or UIManager) to update final score UI for endgame.
             mainCanvas.GetComponent<MainCanvas>().EnableEndGameUI(); // TODO: Make UIManager singleton.
         }
