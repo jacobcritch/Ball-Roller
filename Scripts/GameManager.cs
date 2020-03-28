@@ -79,8 +79,12 @@ public sealed class GameManager : MonoBehaviour
 
     public void RestartGame()
     {
+        //GameObject.Find("InputManager").GetComponent<InputManager>().DestroyRb();
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         mainCanvas.GetComponent<MainCanvas>().EnableStartGameUI(); // TODO: Make UIManager singleton.
+
+        //GameObject.Find("InputManager").GetComponent<InputManager>().Init();
     }
 
     public void EndGame()

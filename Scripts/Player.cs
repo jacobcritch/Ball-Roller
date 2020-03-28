@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-    bool running;
+    private bool running;
+    public bool Running { get => running; private set => running = value; }
 
     Rigidbody rb;
 
@@ -33,7 +35,7 @@ public class Player : MonoBehaviour
         }
         else
         {
-            if ( (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.Return)) && GameManager.Instance.IsGameOver)
+            if ((Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.Return)) && GameManager.Instance.IsGameOver)
             {
                 GameManager.Instance.RestartGame();
             }
